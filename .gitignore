@@ -44,7 +44,7 @@ classes/
 *.ear
 
 # Local configuration file (Spring Boot)
-application*.properties
+#application*.properties
 
 # Dependency directories
 !lib/
