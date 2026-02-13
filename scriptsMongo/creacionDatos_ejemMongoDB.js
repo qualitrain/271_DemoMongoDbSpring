@@ -1,6 +1,10 @@
 
 /** Posicionarse en una base de datos -incluso inexistente- */ 
 use('ejemMongoDB');
+/** Crear un índice ascendente sobre una colección */
+db.articulo.createIndex( {cve_articulo:1} , {unique:true});
+/** Crear un índice de texto sobre una colección */
+db.articulo.createIndex( {descripcion:"text"} );
 /** Insertar un documento en una colección lineal */ 
 db.articulo.insertOne({cve_articulo:"A-23", descripcion:"Espejo lateral derecho VW Pointer 2003-2", 
 	                   costo_prov_1:13.45, precio_lista:455.35});
@@ -17,11 +21,10 @@ db.articulo.insertMany([
 	{cve_articulo:"X-1", descripcion:"Bujia Ford", 
 		costo_prov_1:13.45, precio_lista:26.25}
 	]);
-/** Crear un índice ascendente sobre una colección */
-db.articulo.createIndex( {cve_articulo:1} , {unique:true});
-/** Crear un índice de texto sobre una colección */
-db.articulo.createIndex( {descripcion:"text"} );
+
 /** ================================================================ */
+/** Crear un índice ascendente sobre una colección */
+db.persona.createIndex( {id_persona:1} , {unique:true});
 /** Insertar  colección persona  */
 db.persona.insertMany([
 	{id_persona:1, nombre:"Alejandro Ramírez De la Huerta", 
@@ -35,13 +38,13 @@ db.persona.insertMany([
 	{id_persona:5, nombre:"Brenda Berenice Torres Márquez", 
 		direccion:"Av. Independencia 45, col. Centro", fecha_nacimiento:new Date("1983-04-07")}
 	]);
-/** Crear un índice ascendente sobre una colección */
-db.persona.createIndex( {id_persona:1} , {unique:true});
+/** Crear un índice sobre la colección venta*/
+db.venta.createIndex( {num_venta:1} , {unique:true});
 /** Insertar  colección venta  */
 db.venta.insertOne(
 	{
-		num_venta:1, fecha_venta:new Date(), cte_ObjId:ObjectId("5d7c50ebc7421a912bf1e118"), 
-		vendedor_ObjId:ObjectId("5d7c50ebc7421a912bf1e11a"),
+		num_venta:1, fecha_venta:new Date(), cte_id:4, 
+		vendedor_id:1,
 		detalles:[
 			{
 				numDetalle:1, cantidad:2, cve_articulo:"A-24", 
@@ -62,8 +65,8 @@ db.venta.insertOne(
 	});
 db.venta.insertOne(
 	{
-		num_venta:2, fecha_venta:new Date(), cte_ObjId:ObjectId("5d7c50ebc7421a912bf1e11b"), 
-		vendedor_ObjId:ObjectId("5d7c50ebc7421a912bf1e11a"),
+		num_venta:2, fecha_venta:new Date(), cte_id:3, 
+		vendedor_id:1,
 		detalles:[
 			{
 				numDetalle:1, cantidad:4, cve_articulo:"DR-57", 
@@ -75,11 +78,8 @@ db.venta.insertOne(
 				descripcion:"Bujia Ford",
 				precio:26.25
 			}
-		]
-		
+		]		
 	});
-/** Crear un índice sobre la colección venta*/
-db.venta.createIndex( {num_venta:1} , {unique:true});
 db.venta.updateOne( { num_venta:1 }, 
 		{ $push: {detalles : { numDetalle:4, cantidad:2, cve_articulo:"DR-57", 
 								descripcion:"Amortiguador Ford Mustang 95-96",
